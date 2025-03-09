@@ -1,0 +1,56 @@
+import { Code_Forbidded, Code_Ok } from "@/app/lib/constants";
+import { prismaClient } from "@/app/lib/db";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+
+
+const UpvoteSchema = z.object({
+    streamId: z.string()
+})
+
+export async function POST(req: NextRequest) {
+
+    const session = await getServerSession()
+
+    // TODO: You can get rid of the DB call here
+    const user = await prismaClient.user.findFirst({
+        where: {
+            // TODO: finding a user based on the email is not a good idea we should use id.
+            email: session?.user?.email ?? ""
+        }
+    })
+
+    if (!user) {
+        return NextResponse.json({
+            message: "Unauthenticated user"
+        }, {
+            status: Code_Forbidded
+        })
+    }
+
+    const data = UpvoteSchema.parse(await req.json())
+
+    try {
+        await prismaClient.upvote.create({
+            data: {
+                userId: user.id,
+                streamId: data.streamId
+            }
+        })
+
+        return NextResponse.json({
+            message: "Upvote done"
+        }, {
+            status: Code_Ok
+        })
+
+    } catch(e) {
+        console.error(e)
+        return NextResponse.json({
+            message: "Error while upvoting"
+        }, {
+            status: Code_Forbidded
+        })
+    }
+}
