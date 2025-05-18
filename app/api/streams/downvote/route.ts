@@ -40,6 +40,10 @@ export async function POST(req: NextRequest) {
                 }
             }
         })
+        
+        return NextResponse.json({
+            message: "downvote done!"
+        })
 
     } catch (e) {
         console.error(e)

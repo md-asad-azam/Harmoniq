@@ -2,25 +2,27 @@ import Link from "next/link"
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronUp, Heart, Play } from "lucide-react";
+import axios from "axios";
+import { Stream } from "@/app/lib/constants";
 
-type FeaturedTrack = {
-    id: number,
-    title: string,
-    artist: string,
-    coverUrl: string,
-    likes: string,
-    upvotes: number,
-}
-type FeaturedTrackProps = {
-    featuredTracks: FeaturedTrack[]
+
+type VideoTrackProps = {
+    videoTracks: Stream[],
+    sectionTitle: string
 }
 
-export const Featured = ({ featuredTracks }: FeaturedTrackProps) => {
+export const Videos = ({ videoTracks, sectionTitle }: VideoTrackProps) => {
+
+    const handleUpvote = (id: string, isUpvote: boolean) => {
+        axios.post(`/api/streams/${isUpvote ? 'upvote' : 'downvote'}`, {
+            streamId: id
+        })
+    }
 
     return (
         <section className="py-12 container">
             <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold">Featured Tracks</h2>
+                <h2 className="text-2xl font-bold">{sectionTitle}</h2>
                 <Link
                     href="#"
                     className="text-sm text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300"
@@ -30,14 +32,14 @@ export const Featured = ({ featuredTracks }: FeaturedTrackProps) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {featuredTracks.map((track) => (
+                {videoTracks.map((track) => (
                     <div
                         key={track.id}
                         className=" group relative overflow-hidden rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all"
                     >
                         <div className="h-80 overflow-hidden relative">
                             <Image
-                                src={track.coverUrl || "/placeholder.svg"}
+                                src={track.bigImg || "/placeholder.svg"}
                                 alt={track.title}
                                 layout="fill"
                                 className="absolute top-0 left-0 z-0 object-cover transition-transform group-hover:scale-105"
@@ -53,14 +55,17 @@ export const Featured = ({ featuredTracks }: FeaturedTrackProps) => {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <h3 className="font-semibold line-clamp-1">{track.title}</h3>
-                                    <p className="text-sm text-zinc-600 dark:text-zinc-400">{track.artist}</p>
+                                    <p className="text-sm text-zinc-600 dark:text-zinc-400">{track.channel}</p>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <button className="flex items-center gap-1 text-zinc-500 hover:text-pink-500 dark:text-zinc-400 dark:hover:text-pink-500">
+                                    <button 
+                                    className="flex items-center gap-1 text-zinc-500 hover:text-pink-500 dark:text-zinc-400 dark:hover:text-pink-500"
+                                    onClick={() => handleUpvote(track.id, track.haveUpvoted)}>
                                         <Heart className="h-4 w-4" />
-                                        <span className="text-xs">{track.likes}</span>
+                                        <span className="text-xs">{track.upvotes}</span>
                                     </button>
-                                    <button className="flex items-center gap-1 text-zinc-500 hover:text-purple-500 dark:text-zinc-400 dark:hover:text-purple-500">
+                                    <button
+                                        className="flex items-center gap-1 text-zinc-500 hover:text-purple-500 dark:text-zinc-400 dark:hover:text-purple-500">
                                         <ChevronUp className="h-4 w-4" />
                                         <span className="text-xs">{track.upvotes}</span>
                                     </button>

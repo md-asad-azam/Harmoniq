@@ -15,3 +15,19 @@ export const Code_InternalServerError = 500
 export const Code_NotImplemented = 501
 export const Code_BadGateway = 502
 export const Code_ServiceUnavailable = 503
+
+// interfaces - Object types
+export interface Stream {
+    id: string,
+    type: string,
+    url: string,
+    extractedId: string,
+    title: string,
+    channel: string,
+    smallImg: string,
+    bigImg: string,
+    active: boolean,
+    userId: string,
+    upvotes: number,
+    haveUpvoted: boolean
+}

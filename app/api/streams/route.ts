@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
                 extractedId,
                 type: "Youtube",
                 title: res.title ?? "404 - Not Again, Aggghhh",
+                channel: res.channel ?? "Unknown Channel",
                 smallImg: (thumbnails.length > 1 ? thumbnails[thumbnails.length - 2].url : thumbnails[thumbnails.length - 1].url) ?? notFoundImage,
                 bigImg: thumbnails[thumbnails.length - 1].url ?? notFoundImage
             }

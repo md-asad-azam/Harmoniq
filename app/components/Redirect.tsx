@@ -10,7 +10,7 @@ export function Redirect() {
 
     useEffect(() => {
         if(session?.data?.user) {
-            console.log("redirecting")
+            console.log("Redirecting to dashboard")
             router.push('/dashboard')
         }
     }, [session])

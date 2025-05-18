@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import { Button } from "./ui/button";
+import axios from "axios";
 
 type LinkModalProps = {
     isModalOpen: boolean,
@@ -9,6 +10,10 @@ type LinkModalProps = {
 
 export default function LinkModal({ isModalOpen, setIsModalOpen }: LinkModalProps) {
     const [link, setLink] = useState("");
+
+    const addToQueue = () => {
+        const res = axios.post("/api/streams", link)
+    }
 
     return (
         <>
@@ -34,8 +39,9 @@ export default function LinkModal({ isModalOpen, setIsModalOpen }: LinkModalProp
                             </Button>
                             <Button
                                 onClick={() => {
-                                    console.log("Link saved:", link);
-                                    setIsModalOpen(false);
+                                    console.log("Link saved:", link)
+                                    addToQueue()
+                                    setIsModalOpen(false)
                                 }}
                                 className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                             >
