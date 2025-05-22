@@ -12,7 +12,11 @@ export default function LinkModal({ isModalOpen, setIsModalOpen }: LinkModalProp
     const [link, setLink] = useState("");
 
     const addToQueue = () => {
-        const res = axios.post("/api/streams", link)
+        const res = axios.post("/api/streams", {
+            creatorId: "d6d3acaf-7815-4a96-a3e6-b599b752fdf8",
+            url: link
+        })
+        setLink("")
     }
 
     return (

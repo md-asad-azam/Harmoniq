@@ -34,98 +34,9 @@ export default function Dashboard() {
         <div className="h-screen flex flex-col justify-between">
             <Header />
             <Main />
-            <Videos videoTracks={streams} sectionTitle={"Featured Tracks"} />
+            <Videos videoTracks={streams} setVideoTracks={setStreams} sectionTitle={"Featured Tracks"} />
             <Footer />
         </div>
     </>
 
 }
-
-
-// Sample data - reduced to just 3 tracks
-const featuredTracks = [
-    {
-        id: "1",
-        type: "Youtube",
-        url: "https://i.ytimg.com/vi/4adZ7AguVcw/maxresdefault.jpg",
-        extractedId: "blah-blah",
-        title: "Midnight Dreams",
-        channel: "Luna Eclipse",
-        smallImg: "https://i.ytimg.com/vi/4adZ7AguVcw/maxresdefault.jpg",
-        bigImg: "https://i.ytimg.com/vi/4adZ7AguVcw/maxresdefault.jpg",
-        active: true,
-        userId: "dum dum",
-        upvotes: 856,
-        haveUpvoted: true
-    },
-    {
-        id: "2",
-        type: "Youtube",
-        url: "https://i.ytimg.com/vi/hGOBIaGWoPk/maxresdefault.jpg",
-        extractedId: "blah-blah",
-        title: "Electric Waves",
-        channel: "Neon Pulse",
-        smallImg: "https://i.ytimg.com/vi/hGOBIaGWoPk/maxresdefault.jpg",
-        bigImg: "https://i.ytimg.com/vi/hGOBIaGWoPk/maxresdefault.jpg",
-        active: true,
-        userId: "dum dum",
-        upvotes: 621,
-        haveUpvoted: true
-    },
-    {
-        id: "3",
-        type: "Youtube",
-        url: "https://i.ytimg.com/vi/CmHfWSxt0UQ/maxresdefault.jpg",
-        extractedId: "blah-blah",
-        title: "Sunset Boulevard",
-        channel: "Ocean Drive",
-        smallImg: "https://i.ytimg.com/vi/CmHfWSxt0UQ/maxresdefault.jpg",
-        bigImg: "https://i.ytimg.com/vi/CmHfWSxt0UQ/maxresdefault.jpg",
-        active: true,
-        userId: "dum dum",
-        upvotes: 1500,
-        haveUpvoted: true
-    },
-    {
-        id: "4",
-        type: "Youtube",
-        url: "https://i.ytimg.com/vi/4adZ7AguVcw/maxresdefault.jpg",
-        extractedId: "blah-blah",
-        title: "Midnight Dreams",
-        channel: "Luna Eclipse",
-        smallImg: "https://i.ytimg.com/vi/4adZ7AguVcw/maxresdefault.jpg",
-        bigImg: "https://i.ytimg.com/vi/4adZ7AguVcw/maxresdefault.jpg",
-        active: true,
-        userId: "dum dum",
-        upvotes: 856,
-        haveUpvoted: true
-    },
-    {
-        id: "5",
-        type: "Youtube",
-        url: "https://i.ytimg.com/vi/hGOBIaGWoPk/maxresdefault.jpg",
-        extractedId: "blah-blah",
-        title: "Electric Waves",
-        channel: "Neon Pulse",
-        smallImg: "https://i.ytimg.com/vi/hGOBIaGWoPk/maxresdefault.jpg",
-        bigImg: "https://i.ytimg.com/vi/hGOBIaGWoPk/maxresdefault.jpg",
-        active: true,
-        userId: "dum dum",
-        upvotes: 621,
-        haveUpvoted: true
-    },
-    {
-        id: "6",
-        type: "Youtube",
-        url: "https://i.ytimg.com/vi/CmHfWSxt0UQ/maxresdefault.jpg",
-        extractedId: "blah-blah",
-        title: "Sunset Boulevard",
-        channel: "Ocean Drive",
-        smallImg: "https://i.ytimg.com/vi/CmHfWSxt0UQ/maxresdefault.jpg",
-        bigImg: "https://i.ytimg.com/vi/CmHfWSxt0UQ/maxresdefault.jpg",
-        active: true,
-        userId: "dum dum",
-        upvotes: 1500,
-        haveUpvoted: true
-    },
-]
