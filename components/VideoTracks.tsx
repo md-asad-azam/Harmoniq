@@ -1,9 +1,13 @@
+'use client'
+
 import Link from "next/link"
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ChevronUp, Heart, Play } from "lucide-react";
+import { Heart, Play } from "lucide-react";
 import axios from "axios";
 import { Stream } from "@/app/lib/constants";
+import { useState } from "react";
+import { useTheme } from "next-themes";
 
 
 type VideoTrackProps = {
@@ -13,6 +17,11 @@ type VideoTrackProps = {
 }
 
 export const Videos = ({ videoTracks, setVideoTracks, sectionTitle }: VideoTrackProps) => {
+
+    const [showAll, setShowAll] = useState(false)
+    const { resolvedTheme } = useTheme();
+
+    const visibleItems = showAll ? videoTracks : videoTracks.slice(0, 3)
 
     const handleUpvote = async (id: string, isUpvote: boolean) => {
         console.log(`isUpvote: ${isUpvote}`)
@@ -37,13 +46,14 @@ export const Videos = ({ videoTracks, setVideoTracks, sectionTitle }: VideoTrack
                 <Link
                     href="#"
                     className="text-sm text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300"
+                    onClick={() => setShowAll(!showAll)}
                 >
-                    View All
+                    {showAll ? "View Less" : "View All"}
                 </Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {videoTracks.map((track) => (
+                {visibleItems.map((track) => (
                     <div
                         key={track.id}
                         className="group relative overflow-hidden rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all"
@@ -72,7 +82,10 @@ export const Videos = ({ videoTracks, setVideoTracks, sectionTitle }: VideoTrack
                                     <button
                                         className="flex items-center gap-1 text-zinc-500 hover:text-pink-500 dark:text-zinc-400 dark:hover:text-pink-500"
                                         onClick={() => handleUpvote(track.id, track.haveUpvoted ? false : true)}>
-                                        <Heart className="h-4 w-4" fill={track.haveUpvoted ? "#ec4899" : ""} color={track.haveUpvoted ? "#ec4899" : "#71717a"} />
+                                        <Heart 
+                                        className="h-4 w-4" 
+                                        fill={track.haveUpvoted ? "#ec4899" : (resolvedTheme === "dark" ? "black" : "white")} 
+                                        color={track.haveUpvoted ? "#ec4899" : "#71717a"} />
                                         <span className="text-xs">{track.upvotes}</span>
                                     </button>
                                 </div>

@@ -4,6 +4,8 @@
 export const Code_Ok = 200
 export const Code_Created = 201
 export const Code_Accepted = 202
+//  No Content
+export const Code_NoContent = 204
 // client errors
 export const Code_BadRequest = 400
 export const Code_Unauthorized = 401
