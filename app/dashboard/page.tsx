@@ -9,10 +9,13 @@ import axios from "axios"
 import { Stream } from "../lib/constants"
 
 const REFRESH_INTERVAL_MS = 10 * 1000
+const FEATURED_TRACKS_COUNT = 6
 
 export default function Dashboard() {
 
     const [streams, setStreams] = useState<Stream[]>([])
+    const [myStreamsCount, setMyStreamsCount] = useState<number>(3)
+    const [featurtedTracksCount, setFeaturtedTracksCount] = useState<number>(0)
     const [featuredTracks, setFeaturtedTracks] = useState<Stream[]>([])
 
     async function refreshStreams(limit = 3) {
@@ -34,18 +37,18 @@ export default function Dashboard() {
     }
 
     useEffect(() => {
-        refreshStreams()
-        getFeaturedTracks()
-        const interval = setInterval(() => { refreshStreams() }, REFRESH_INTERVAL_MS)
+        refreshStreams(myStreamsCount)
+        getFeaturedTracks(FEATURED_TRACKS_COUNT)
+        const interval = setInterval(() => { refreshStreams(myStreamsCount) }, REFRESH_INTERVAL_MS)
         return () => clearInterval(interval); // Clean up the interval on unmount
-    }, [])
+    }, [myStreamsCount])
 
     return <>
         <div className="h-screen flex flex-col justify-between">
             <Header />
             <Main />
-            {streams.length > 0 ? <Videos videoTracks={streams} setVideoTracks={setStreams} sectionTitle={"My Streams"} /> : <></>}
-            {featuredTracks.length > 0 ? <Videos videoTracks={featuredTracks} setVideoTracks={setFeaturtedTracks} sectionTitle={"Featured Tracks"} /> : <></>}
+            {streams.length > 0 ? <Videos videoTracks={streams} setVideoTracks={setStreams} setVideoCount={setMyStreamsCount} sectionTitle={"My Streams"} /> : <></>}
+            {featuredTracks.length > 0 ? <Videos videoTracks={featuredTracks} setVideoTracks={setFeaturtedTracks} setVideoCount={setFeaturtedTracksCount} sectionTitle={"Featured Tracks"} /> : <></>}
             <Footer />
         </div>
     </>

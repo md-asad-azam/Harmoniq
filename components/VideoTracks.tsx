@@ -13,15 +13,23 @@ import { useTheme } from "next-themes";
 type VideoTrackProps = {
     videoTracks: Stream[],
     setVideoTracks: React.Dispatch<React.SetStateAction<Stream[]>>,
+    setVideoCount: React.Dispatch<React.SetStateAction<number>>
     sectionTitle: string
 }
 
-export const Videos = ({ videoTracks, setVideoTracks, sectionTitle }: VideoTrackProps) => {
+export const Videos = ({ videoTracks, setVideoTracks, setVideoCount, sectionTitle }: VideoTrackProps) => {
 
     const [showAll, setShowAll] = useState(false)
     const { resolvedTheme } = useTheme();
 
+    // we will just switch the view if show less is clicked. We will not make the 
+    // DB call again as we already have the data required.
     const visibleItems = showAll ? videoTracks : videoTracks.slice(0, 3)
+
+    const handleToggelView = () => {
+        setShowAll(!showAll)
+        if(showAll) setVideoCount(0) // 0 means fetch all videos
+    }
 
     const handleUpvote = async (id: string, isUpvote: boolean) => {
         console.log(`isUpvote: ${isUpvote}`)
@@ -46,7 +54,7 @@ export const Videos = ({ videoTracks, setVideoTracks, sectionTitle }: VideoTrack
                 <Link
                     href="#"
                     className="text-sm text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300"
-                    onClick={() => setShowAll(!showAll)}
+                    onClick={handleToggelView}
                 >
                     {showAll ? "View Less" : "View All"}
                 </Link>
@@ -82,10 +90,10 @@ export const Videos = ({ videoTracks, setVideoTracks, sectionTitle }: VideoTrack
                                     <button
                                         className="flex items-center gap-1 text-zinc-500 hover:text-pink-500 dark:text-zinc-400 dark:hover:text-pink-500"
                                         onClick={() => handleUpvote(track.id, track.haveUpvoted ? false : true)}>
-                                        <Heart 
-                                        className="h-4 w-4" 
-                                        fill={track.haveUpvoted ? "#ec4899" : (resolvedTheme === "dark" ? "black" : "white")} 
-                                        color={track.haveUpvoted ? "#ec4899" : "#71717a"} />
+                                        <Heart
+                                            className="h-4 w-4"
+                                            fill={track.haveUpvoted ? "#ec4899" : (resolvedTheme === "dark" ? "black" : "white")}
+                                            color={track.haveUpvoted ? "#ec4899" : "#71717a"} />
                                         <span className="text-xs">{track.upvotes}</span>
                                     </button>
                                 </div>
