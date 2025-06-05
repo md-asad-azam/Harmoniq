@@ -34,3 +34,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+## TODO
+1. The sorting is broken... when we upvote the videos are sorted but as the data is refreshed the sorting is gone as the new videos are set.
+2. View all is not working at once...  we should fetch the new data as soon as the view all is clicked.. not when the refresh is called at the interval in useEffect

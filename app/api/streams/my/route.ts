@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url)
     const limitParam = searchParams.get('limit')
-    const limit = limitParam ? parseInt(limitParam) : 15
+    const limit = limitParam === '0' ? undefined : parseInt(limitParam as string)
 
     const streams = await prismaClient.stream.findMany({
         take: limit,
